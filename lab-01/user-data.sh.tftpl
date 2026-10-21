@@ -1,0 +1,6 @@
+#!/bin/bash
+# Install the CPU burner used by the lab (Terraform embeds burn.sh here)
+/bin/cat > /usr/local/bin/burn.sh <<'SCRIPT'
+${burn_script}
+SCRIPT
+chmod +x /usr/local/bin/burn.sh

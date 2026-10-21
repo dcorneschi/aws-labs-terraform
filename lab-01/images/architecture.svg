@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 550" width="1000" height="550" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#232F3E">
+  <title>lab-01 architecture: Spot Auto Scaling group that scales out at 75% CPU</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#545B64"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="550" fill="#FFFFFF"/>
+  <text x="500" y="34" text-anchor="middle" font-size="18" font-weight="bold">lab-01: Spot Auto Scaling group that adds an instance at 75% CPU</text>
+
+  <!-- You -->
+  <rect x="30" y="80" width="170" height="56" rx="8" fill="#F2F3F3" stroke="#545B64"/>
+  <text x="115" y="104" text-anchor="middle" font-weight="bold">You</text>
+  <text x="115" y="122" text-anchor="middle">AWS CLI / Terraform</text>
+
+  <!-- Systems Manager -->
+  <rect x="30" y="220" width="170" height="64" rx="8" fill="#FDEEF5" stroke="#E7157B"/>
+  <text x="115" y="246" text-anchor="middle" font-weight="bold">Systems Manager</text>
+  <text x="115" y="264" text-anchor="middle">Run Command</text>
+
+  <!-- Default VPC -->
+  <rect x="240" y="60" width="420" height="260" rx="6" fill="none" stroke="#248814" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="252" y="80" fill="#248814" font-weight="bold">Default VPC · default subnets in several AZs</text>
+
+  <!-- Auto Scaling group -->
+  <rect x="260" y="100" width="380" height="190" rx="6" fill="#FFFAF3" stroke="#ED7100" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="450" y="124" text-anchor="middle" fill="#B85600" font-weight="bold">Auto Scaling group asg-lab</text>
+  <text x="450" y="142" text-anchor="middle" fill="#B85600">min 1 · desired 1 · max 2 · 100% Spot</text>
+
+  <rect x="280" y="165" width="160" height="95" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="360" y="192" text-anchor="middle" font-weight="bold">Spot instance 1</text>
+  <text x="360" y="212" text-anchor="middle">Amazon Linux 2023</text>
+  <text x="360" y="230" text-anchor="middle">burn.sh</text>
+  <text x="360" y="248" text-anchor="middle" fill="#545B64" font-size="12">AZ a</text>
+
+  <rect x="460" y="165" width="160" height="95" rx="8" fill="#FFFFFF" stroke="#ED7100" stroke-dasharray="5 3"/>
+  <text x="540" y="192" text-anchor="middle" font-weight="bold">Spot instance 2</text>
+  <text x="540" y="212" text-anchor="middle">added on scale-out</text>
+  <text x="540" y="248" text-anchor="middle" fill="#545B64" font-size="12">usually AZ b</text>
+
+  <!-- CloudWatch alarm -->
+  <rect x="730" y="100" width="240" height="100" rx="8" fill="#FDEEF5" stroke="#E7157B"/>
+  <text x="850" y="126" text-anchor="middle" font-weight="bold">CloudWatch alarm</text>
+  <text x="850" y="144" text-anchor="middle">asg-lab-cpu-high</text>
+  <text x="850" y="164" text-anchor="middle">average CPU ≥ 75%</text>
+  <text x="850" y="182" text-anchor="middle">1 period of 60 s</text>
+
+  <!-- Scaling policy -->
+  <rect x="730" y="250" width="240" height="70" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="850" y="278" text-anchor="middle" font-weight="bold">Simple scaling policy</text>
+  <text x="850" y="298" text-anchor="middle">+1 instance · cooldown 300 s</text>
+
+  <!-- SSM parameter -->
+  <rect x="30" y="430" width="200" height="70" rx="8" fill="#FDEEF5" stroke="#E7157B"/>
+  <text x="130" y="458" text-anchor="middle" font-weight="bold">SSM public parameter</text>
+  <text x="130" y="478" text-anchor="middle">latest AL2023 AMI ID</text>
+
+  <!-- Launch template -->
+  <rect x="280" y="400" width="360" height="130" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="460" y="426" text-anchor="middle" font-weight="bold">Launch template asg-lab-lt</text>
+  <text x="460" y="448" text-anchor="middle">c5 / c5a / c6i / c6a .large (not burstable)</text>
+  <text x="460" y="468" text-anchor="middle">IMDSv2 only · detailed monitoring</text>
+  <text x="460" y="488" text-anchor="middle">security group: no inbound, all outbound</text>
+  <text x="460" y="508" text-anchor="middle">user data installs /usr/local/bin/burn.sh</text>
+
+  <!-- IAM -->
+  <rect x="730" y="430" width="240" height="70" rx="8" fill="#FCEBEE" stroke="#DD344C"/>
+  <text x="850" y="458" text-anchor="middle" font-weight="bold">IAM role + instance profile</text>
+  <text x="850" y="478" text-anchor="middle">AmazonSSMManagedInstanceCore</text>
+
+  <!-- Arrows -->
+  <g stroke="#545B64" stroke-width="1.6" fill="none" marker-end="url(#arrow)">
+    <line x1="115" y1="136" x2="115" y2="218"/>
+    <line x1="200" y1="246" x2="278" y2="222"/>
+    <line x1="640" y1="150" x2="728" y2="150"/>
+    <line x1="850" y1="200" x2="850" y2="248"/>
+    <line x1="730" y1="285" x2="642" y2="278"/>
+    <line x1="460" y1="400" x2="460" y2="292"/>
+    <line x1="230" y1="465" x2="278" y2="465"/>
+    <line x1="730" y1="465" x2="642" y2="465"/>
+  </g>
+
+  <!-- Arrow labels -->
+  <g font-size="12" fill="#545B64">
+    <text x="123" y="172">send-command</text>
+    <text x="123" y="188">burn.sh 900</text>
+    <text x="115" y="304" text-anchor="middle">agent connects</text>
+    <text x="115" y="320" text-anchor="middle">out over HTTPS</text>
+    <text x="684" y="134" text-anchor="middle">CPU</text>
+    <text x="684" y="170" text-anchor="middle">1-min</text>
+    <text x="858" y="230" font-weight="bold" fill="#D13212">ALARM</text>
+    <text x="695" y="262" text-anchor="middle">desired</text>
+    <text x="695" y="276" text-anchor="middle">+1</text>
+    <text x="468" y="360">launches</text>
+    <text x="254" y="455" text-anchor="middle">AMI</text>
+    <text x="686" y="455" text-anchor="middle">profile</text>
+  </g>
+</svg>
