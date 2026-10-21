@@ -1,5 +1,6 @@
-# Local provider/module cache
+# Local provider/module cache and dependency lock file
 .terraform/
+.terraform.lock.hcl
 
 # State files (may contain secrets)
 *.tfstate

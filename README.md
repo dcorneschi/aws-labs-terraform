@@ -35,9 +35,9 @@ terraform destroy
 
 ```text
 .
-├── .gitignore    # Terraform ignores shared by every lab (state, .terraform/, tfvars, plans)
+├── .gitignore    # Terraform ignores shared by every lab (state, .terraform/, lock files, tfvars, plans)
 ├── README.md
 └── lab-01/       # one folder per lab, each a standalone Terraform root module
 ```
 
-State is kept locally in each lab folder and is never committed. `.terraform.lock.hcl` is committed so provider versions stay pinned.
+State is kept locally in each lab folder and is never committed. Neither is `.terraform.lock.hcl`: `terraform init` creates it with the newest provider version allowed by each lab's `versions.tf`.
