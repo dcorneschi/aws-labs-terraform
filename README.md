@@ -8,6 +8,7 @@ Hands-on AWS labs, each built with Terraform. Every lab lives in its own folder 
 |-----|----------------|
 | [lab-01](lab-01/README.md) | An Auto Scaling group of Spot instances that adds a second instance when the group's average CPU reaches 75%. You raise the CPU through Systems Manager, watch the scale-out, then destroy everything |
 | [lab-02](lab-02/README.md) | Two VPCs in one account, VPC-A and VPC-B, joined by a VPC peering connection. A test instance in each pings and fetches a web page from the other over private IPs |
+| [lab-03](lab-03/README.md) | An EC2 instance backed up as an AMI, the AMI copied to a secondary Region, and a new instance launched from the copy there. A marker file written on the source proves the restore |
 
 ## Prerequisites
 
@@ -39,7 +40,8 @@ terraform destroy
 ├── .gitignore    # Terraform ignores shared by every lab (state, .terraform/, lock files, tfvars, plans)
 ├── README.md
 ├── lab-01/       # one folder per lab, each a standalone Terraform root module
-└── lab-02/
+├── lab-02/
+└── lab-03/
 ```
 
 State is kept locally in each lab folder and is never committed. Neither is `.terraform.lock.hcl`: `terraform init` creates it with the newest provider version allowed by each lab's `versions.tf`.

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 570" width="1000" height="570" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#232F3E">
+  <title>lab-03 architecture: back up an EC2 instance as an AMI, copy it to a secondary Region and launch a restored instance there</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#545B64"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="570" fill="#FFFFFF"/>
+  <text x="500" y="32" text-anchor="middle" font-size="18" font-weight="bold">lab-03: AMI backup, cross-Region copy and restore</text>
+
+  <!-- IAM (global) -->
+  <rect x="290" y="50" width="420" height="44" rx="8" fill="#FCEBEE" stroke="#DD344C"/>
+  <text x="500" y="70" text-anchor="middle" font-weight="bold">IAM role + instance profile (global)</text>
+  <text x="500" y="87" text-anchor="middle" font-size="12">AmazonSSMManagedInstanceCore · used in both Regions</text>
+
+  <!-- Primary Region -->
+  <rect x="20" y="110" width="440" height="380" rx="6" fill="none" stroke="#232F3E" stroke-width="1.2"/>
+  <text x="34" y="130" font-weight="bold">Primary Region · eu-west-1</text>
+
+  <rect x="40" y="145" width="400" height="130" rx="6" fill="none" stroke="#248814" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="52" y="163" fill="#248814">Default VPC</text>
+  <rect x="120" y="175" width="240" height="85" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="240" y="199" text-anchor="middle" font-weight="bold">Source instance</text>
+  <text x="240" y="219" text-anchor="middle">Amazon Linux 2023 · t3.micro</text>
+  <text x="240" y="241" text-anchor="middle" font-size="12" fill="#545B64">/etc/ami-lab-marker</text>
+
+  <rect x="120" y="330" width="240" height="110" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="240" y="356" text-anchor="middle" font-weight="bold">AMI ami-lab-backup</text>
+  <text x="240" y="378" text-anchor="middle">launch settings +</text>
+  <text x="240" y="396" text-anchor="middle">EBS snapshot of the root volume</text>
+  <text x="240" y="420" text-anchor="middle" font-size="12" fill="#545B64">taken with a reboot</text>
+
+  <!-- Secondary Region -->
+  <rect x="540" y="110" width="440" height="380" rx="6" fill="none" stroke="#232F3E" stroke-width="1.2"/>
+  <text x="554" y="130" font-weight="bold">Secondary Region · eu-central-1</text>
+
+  <rect x="560" y="145" width="400" height="130" rx="6" fill="none" stroke="#248814" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="572" y="163" fill="#248814">Default VPC</text>
+  <rect x="640" y="175" width="240" height="85" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="760" y="199" text-anchor="middle" font-weight="bold">Restored instance</text>
+  <text x="760" y="219" text-anchor="middle">launched from the copy</text>
+  <text x="760" y="241" text-anchor="middle" font-size="12" fill="#545B64">same /etc/ami-lab-marker</text>
+
+  <rect x="640" y="330" width="240" height="110" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="760" y="356" text-anchor="middle" font-weight="bold">AMI copy</text>
+  <text x="760" y="378" text-anchor="middle">new AMI ID in this Region</text>
+  <text x="760" y="396" text-anchor="middle">encrypted snapshot (aws/ebs)</text>
+  <text x="760" y="420" text-anchor="middle" font-size="12" fill="#545B64">tag SourceAmi = original ID</text>
+
+  <!-- Arrows -->
+  <g stroke="#545B64" stroke-width="1.8" fill="none" marker-end="url(#arrow)">
+    <line x1="240" y1="260" x2="240" y2="328"/>
+    <line x1="360" y1="385" x2="638" y2="385"/>
+    <line x1="760" y1="330" x2="760" y2="262"/>
+  </g>
+
+  <g font-size="12" font-weight="bold" text-anchor="middle">
+    <circle cx="225" cy="295" r="9" fill="#232F3E"/><text x="225" y="299" fill="#FFFFFF">1</text>
+    <circle cx="448" cy="368" r="9" fill="#232F3E"/><text x="448" y="372" fill="#FFFFFF">2</text>
+    <circle cx="775" cy="295" r="9" fill="#232F3E"/><text x="775" y="299" fill="#FFFFFF">3</text>
+  </g>
+  <g font-size="12" fill="#545B64">
+    <text x="250" y="299">create-image</text>
+    <text x="500" y="372" text-anchor="middle">copy-image</text>
+    <text x="500" y="405" text-anchor="middle">takes several minutes</text>
+    <text x="700" y="299" text-anchor="end">run-instances</text>
+  </g>
+
+  <!-- Systems Manager -->
+  <rect x="300" y="508" width="400" height="46" rx="8" fill="#FDEEF5" stroke="#E7157B"/>
+  <text x="500" y="528" text-anchor="middle" font-weight="bold">Systems Manager Run Command</text>
+  <text x="500" y="545" text-anchor="middle" font-size="12">in each Region · no SSH, no inbound rules</text>
+</svg>
