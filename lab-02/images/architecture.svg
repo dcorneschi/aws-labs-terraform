@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="1000" height="600" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#232F3E">
+  <title>lab-02 architecture: VPC peering between VPC-A and VPC-B in one account</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#545B64"/>
+    </marker>
+    <marker id="peer" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8C4FFF"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="600" fill="#FFFFFF"/>
+  <text x="500" y="32" text-anchor="middle" font-size="18" font-weight="bold">lab-02: VPC peering between VPC-A and VPC-B</text>
+
+  <!-- Account / Region -->
+  <rect x="20" y="52" width="960" height="450" rx="6" fill="none" stroke="#232F3E" stroke-width="1.2"/>
+  <text x="34" y="72" font-weight="bold">One AWS account · one Region (eu-west-1)</text>
+
+  <!-- VPC-A -->
+  <rect x="50" y="90" width="360" height="340" rx="6" fill="none" stroke="#248814" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="62" y="110" fill="#248814" font-weight="bold">VPC-A · 10.10.0.0/16</text>
+
+  <rect x="70" y="125" width="320" height="165" rx="6" fill="#F2F8F0" stroke="#7AA116"/>
+  <text x="82" y="144" fill="#4F6B0E">Public subnet 10.10.1.0/24</text>
+  <rect x="100" y="158" width="260" height="118" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="230" y="182" text-anchor="middle" font-weight="bold">Test instance A</text>
+  <text x="230" y="202" text-anchor="middle">t3.micro · Amazon Linux 2023</text>
+  <text x="230" y="222" text-anchor="middle">web page on port 80</text>
+  <text x="230" y="244" text-anchor="middle" font-size="12" fill="#545B64">SG: ping + HTTP from</text>
+  <text x="230" y="262" text-anchor="middle" font-size="12" fill="#545B64">10.20.0.0/16 only</text>
+
+  <rect x="70" y="305" width="320" height="110" rx="6" fill="#F7F7F7" stroke="#545B64"/>
+  <text x="230" y="328" text-anchor="middle" font-weight="bold">Route table</text>
+  <text x="230" y="350" text-anchor="middle">10.10.0.0/16 → local</text>
+  <text x="230" y="370" text-anchor="middle" fill="#8C4FFF" font-weight="bold">10.20.0.0/16 → peering</text>
+  <text x="230" y="390" text-anchor="middle">0.0.0.0/0 → internet gateway</text>
+
+  <!-- VPC-B -->
+  <rect x="590" y="90" width="360" height="340" rx="6" fill="none" stroke="#248814" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="602" y="110" fill="#248814" font-weight="bold">VPC-B · 10.20.0.0/16</text>
+
+  <rect x="610" y="125" width="320" height="165" rx="6" fill="#F2F8F0" stroke="#7AA116"/>
+  <text x="622" y="144" fill="#4F6B0E">Public subnet 10.20.1.0/24</text>
+  <rect x="640" y="158" width="260" height="118" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="770" y="182" text-anchor="middle" font-weight="bold">Test instance B</text>
+  <text x="770" y="202" text-anchor="middle">t3.micro · Amazon Linux 2023</text>
+  <text x="770" y="222" text-anchor="middle">web page on port 80</text>
+  <text x="770" y="244" text-anchor="middle" font-size="12" fill="#545B64">SG: ping + HTTP from</text>
+  <text x="770" y="262" text-anchor="middle" font-size="12" fill="#545B64">10.10.0.0/16 only</text>
+
+  <rect x="610" y="305" width="320" height="110" rx="6" fill="#F7F7F7" stroke="#545B64"/>
+  <text x="770" y="328" text-anchor="middle" font-weight="bold">Route table</text>
+  <text x="770" y="350" text-anchor="middle">10.20.0.0/16 → local</text>
+  <text x="770" y="370" text-anchor="middle" fill="#8C4FFF" font-weight="bold">10.10.0.0/16 → peering</text>
+  <text x="770" y="390" text-anchor="middle">0.0.0.0/0 → internet gateway</text>
+
+  <!-- Peering -->
+  <line x1="414" y1="250" x2="586" y2="250" stroke="#8C4FFF" stroke-width="3" marker-start="url(#peer)" marker-end="url(#peer)"/>
+  <rect x="440" y="195" width="120" height="110" rx="8" fill="#F4EEFF" stroke="#8C4FFF" stroke-width="1.5"/>
+  <text x="500" y="220" text-anchor="middle" font-weight="bold">VPC peering</text>
+  <text x="500" y="240" text-anchor="middle" font-size="12">pcx-…</text>
+  <text x="500" y="260" text-anchor="middle" font-size="12">auto-accepted</text>
+  <text x="500" y="280" text-anchor="middle" font-size="12">remote DNS on</text>
+
+  <!-- Internet gateways -->
+  <rect x="150" y="448" width="160" height="40" rx="6" fill="#F4EEFF" stroke="#8C4FFF"/>
+  <text x="230" y="473" text-anchor="middle">Internet gateway A</text>
+  <rect x="690" y="448" width="160" height="40" rx="6" fill="#F4EEFF" stroke="#8C4FFF"/>
+  <text x="770" y="473" text-anchor="middle">Internet gateway B</text>
+
+  <!-- Systems Manager -->
+  <rect x="390" y="530" width="220" height="54" rx="8" fill="#FDEEF5" stroke="#E7157B"/>
+  <text x="500" y="553" text-anchor="middle" font-weight="bold">Systems Manager</text>
+  <text x="500" y="571" text-anchor="middle">Run Command (no SSH)</text>
+
+  <g stroke="#545B64" stroke-width="1.6" fill="none" marker-end="url(#arrow)">
+    <line x1="230" y1="415" x2="230" y2="446"/>
+    <line x1="770" y1="415" x2="770" y2="446"/>
+    <line x1="310" y1="480" x2="388" y2="545"/>
+    <line x1="690" y1="480" x2="612" y2="545"/>
+  </g>
+  <text x="500" y="520" text-anchor="middle" font-size="12" fill="#545B64">outbound HTTPS from each instance's agent</text>
+</svg>

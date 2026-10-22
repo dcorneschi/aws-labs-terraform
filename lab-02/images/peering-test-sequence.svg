@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 545" width="1000" height="545" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#232F3E">
+  <title>lab-02 test: ping and HTTP from instance A to instance B over the peering connection</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#232F3E"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="545" fill="#FFFFFF"/>
+  <text x="500" y="30" text-anchor="middle" font-size="18" font-weight="bold">Testing the peering, step by step (A → B)</text>
+
+  <!-- Lifelines -->
+  <g stroke="#AAB7B8" stroke-width="1.2" stroke-dasharray="5 4">
+    <line x1="100" y1="104" x2="100" y2="530"/>
+    <line x1="300" y1="104" x2="300" y2="530"/>
+    <line x1="500" y1="104" x2="500" y2="530"/>
+    <line x1="700" y1="104" x2="700" y2="530"/>
+    <line x1="900" y1="104" x2="900" y2="530"/>
+  </g>
+
+  <!-- Participants -->
+  <rect x="30" y="50" width="140" height="54" rx="8" fill="#F2F3F3" stroke="#545B64"/>
+  <text x="100" y="82" text-anchor="middle" font-weight="bold">You</text>
+
+  <rect x="230" y="50" width="140" height="54" rx="8" fill="#FDEEF5" stroke="#E7157B"/>
+  <text x="300" y="73" text-anchor="middle" font-weight="bold">Systems</text>
+  <text x="300" y="91" text-anchor="middle" font-weight="bold">Manager</text>
+
+  <rect x="430" y="50" width="140" height="54" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="500" y="73" text-anchor="middle" font-weight="bold">Instance A</text>
+  <text x="500" y="91" text-anchor="middle" font-size="12">VPC-A · 10.10.1.x</text>
+
+  <rect x="630" y="50" width="140" height="54" rx="8" fill="#F4EEFF" stroke="#8C4FFF"/>
+  <text x="700" y="73" text-anchor="middle" font-weight="bold">Peering</text>
+  <text x="700" y="91" text-anchor="middle" font-size="12">pcx-…</text>
+
+  <rect x="830" y="50" width="140" height="54" rx="8" fill="#FFF4E8" stroke="#ED7100"/>
+  <text x="900" y="73" text-anchor="middle" font-weight="bold">Instance B</text>
+  <text x="900" y="91" text-anchor="middle" font-size="12">VPC-B · 10.20.1.x</text>
+
+  <!-- Messages -->
+  <g stroke="#232F3E" stroke-width="1.5" marker-end="url(#arrow)">
+    <line x1="100" y1="145" x2="298" y2="145"/>
+    <line x1="300" y1="185" x2="498" y2="185"/>
+    <line x1="500" y1="270" x2="698" y2="270"/>
+    <line x1="700" y1="310" x2="898" y2="310"/>
+    <line x1="900" y1="350" x2="502" y2="350" stroke-dasharray="6 4"/>
+    <line x1="500" y1="455" x2="898" y2="455"/>
+    <line x1="500" y1="495" x2="102" y2="495" stroke-dasharray="6 4"/>
+  </g>
+
+  <!-- Message labels -->
+  <g text-anchor="middle">
+    <text x="200" y="138">send-command</text>
+    <text x="400" y="178">run ping + curl</text>
+    <text x="600" y="263">ping / HTTP to 10.20.1.x</text>
+    <text x="800" y="303">SG allows 10.10.0.0/16</text>
+    <text x="700" y="343">reply · "hello from VPC-B"</text>
+    <text x="700" y="448">curl ec2-….compute.amazonaws.com → same path</text>
+    <text x="300" y="488">command output</text>
+  </g>
+
+  <!-- Step numbers -->
+  <g font-size="11" font-weight="bold" text-anchor="middle">
+    <circle cx="100" cy="145" r="9" fill="#232F3E"/><text x="100" y="149" fill="#FFFFFF">1</text>
+    <circle cx="300" cy="185" r="9" fill="#232F3E"/><text x="300" y="189" fill="#FFFFFF">2</text>
+    <circle cx="500" cy="270" r="9" fill="#232F3E"/><text x="500" y="274" fill="#FFFFFF">3</text>
+    <circle cx="700" cy="310" r="9" fill="#232F3E"/><text x="700" y="314" fill="#FFFFFF">4</text>
+    <circle cx="900" cy="350" r="9" fill="#232F3E"/><text x="900" y="354" fill="#FFFFFF">5</text>
+    <circle cx="500" cy="455" r="9" fill="#232F3E"/><text x="500" y="459" fill="#FFFFFF">7</text>
+    <circle cx="500" cy="495" r="9" fill="#232F3E"/><text x="500" y="499" fill="#FFFFFF">8</text>
+  </g>
+
+  <!-- Notes -->
+  <g text-anchor="middle">
+    <rect x="380" y="205" width="240" height="36" rx="4" fill="#F4EEFF" stroke="#8C4FFF"/>
+    <text x="500" y="228">route table: 10.20.0.0/16 → peering</text>
+
+    <rect x="330" y="375" width="340" height="50" rx="4" fill="#FFF8DC" stroke="#C9A400"/>
+    <circle cx="346" cy="400" r="9" fill="#232F3E"/><text x="346" y="404" fill="#FFFFFF" font-size="11" font-weight="bold">6</text>
+    <text x="508" y="396">B's public DNS name resolves to 10.20.1.x</text>
+    <text x="508" y="414" font-size="12" fill="#545B64">(remote DNS resolution on the peering)</text>
+  </g>
+</svg>
